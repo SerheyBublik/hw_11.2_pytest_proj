@@ -12,9 +12,10 @@ def test_get(array, index, defaul, value):
     assert arrs.get(array, index, defaul) == value
 
 
-def test_slice():
-    assert arrs.my_slice([1, 2, 3, 4], 1, 3) == [2, 3]
-    assert arrs.my_slice([1, 2, 3], 1) == [2, 3]
-    assert arrs.my_slice([], 1) == []
-    assert arrs.my_slice([1, 2, 3], -1) == [3]
-    assert arrs.my_slice([1, 2, 3], -4) == [1, 2, 3]
+@pytest.mark.parametrize("coll, start, end, result", [([1, 2, 3, 4], 1, 3, [2, 3]),
+                                                      ([1, 2, 3], 1, None, [2, 3]),
+                                                      ([], 1, None, []),
+                                                      ([1, 2, 3], -1, None, [3]),
+                                                       ([1, 2, 3], -4, None, [1, 2, 3])])
+def test_slice(coll, start, end, result):
+    assert arrs.my_slice(coll, start, end) == result
